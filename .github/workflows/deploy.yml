@@ -19,26 +19,21 @@ jobs:
           distribution: "liberica"
           java-version: '21'
 
-      - name: Build without tests
-        run: mvn clean install -DskipTests
-
-#      - name: Set up SSH
-#        uses: webfactory/ssh-agent@v0.5.3
-#        with:
-#          ssh-private-key: ${{ secrets.SERVER_SSH_KEY  }}
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SERVER_SSH_KEY  }}
       - name: Deploy Docker container
         env:
           USER: ${{ secrets.SERVER_USER }}
           HOST: ${{ secrets.SERVER_IP }}
         run: |
-#             Przejście do katalogu z aplikacją
-#             cd /home/igorbia/FinPlat
-          
-            # Pobranie najnowszych zmian z repozytorium
-            git pull origin main
-          
-            mvn clean install
-            mvn spring-boot:run
+          ssh -o StrictHostKeyChecking=no USER@$HOST << 'EOF'
+          cd /FinPlat
+          git pull origin main
+          mvn clean install
+          mvn spring-boot:run
+          EOF
 
 
 
