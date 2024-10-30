@@ -28,4 +28,11 @@ jobs:
           host: ${{ secrets.SERVER_IP }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          run: mvn spring-boot:run
+          run: |
+            ssh -o StrictHostKeyChecking=no $username@$host << 'EOF'
+              # Przejście do katalogu z aplikacją
+              cd /home/igorbia/FinPlat
+              # Pobranie najnowszych zmian z repozytorium
+              git pull origin main
+              mvn spring-boot:run
+            EOF
