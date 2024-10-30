@@ -22,17 +22,43 @@ jobs:
       - name: Build without tests
         run: mvn clean install -DskipTests
 
-      - name: Deploy to server
-        uses: appleboy/ssh-action@master
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
         with:
-          host: ${{ secrets.SERVER_IP }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SERVER_SSH_KEY }}
-          run: |
-            ssh -o StrictHostKeyChecking=no $username@$host << 'EOF'
-              # Przejście do katalogu z aplikacją
-              cd /home/igorbia/FinPlat
-              # Pobranie najnowszych zmian z repozytorium
-              git pull origin main
-              mvn spring-boot:run
-            EOF
+          ssh-private-key: ${{ secrets.SERVER_SSH_KEY  }}
+
+      - name: Deploy Docker container
+        env:
+          USER: ${{ secrets.SERVER_USER }}
+          HOST: ${{ secrets.SERVER_IP }}
+        run: |
+          ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
+            # Przejście do katalogu z aplikacją
+            cd /home/igorbia/FinPlat
+          
+            # Pobranie najnowszych zmian z repozytorium
+            git pull origin main
+          
+            mvn clean install
+            mvn spring-boot:run
+          EOF
+
+
+
+
+
+
+#      - name: Deploy to server
+#        uses: appleboy/ssh-action@master
+#        with:
+#          host: ${{ secrets.SERVER_IP }}
+#          username: ${{ secrets.SERVER_USER }}
+#          key: ${{ secrets.SERVER_SSH_KEY }}
+#          run: |
+#            ssh -o StrictHostKeyChecking=no $username@$host << 'EOF'
+#              # Przejście do katalogu z aplikacją
+#              cd /home/igorbia/FinPlat
+#              # Pobranie najnowszych zmian z repozytorium
+#              git pull origin main
+#              mvn spring-boot:run
+#            EOF
