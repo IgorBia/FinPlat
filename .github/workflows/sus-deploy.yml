@@ -20,8 +20,8 @@ jobs:
 
       - name: Deploy Docker container
         env:
-          USER: ${{ secrets.SERVER_USER }}
-          HOST: ${{ secrets.SERVER_HOST }}
+          USER: ${{ secrets.SSH_USER }}
+          HOST: ${{ secrets.SSH_HOST }}
         run: |
           ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
             cd /finplat/
