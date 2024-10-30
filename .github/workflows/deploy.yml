@@ -22,10 +22,10 @@ jobs:
       - name: Build without tests
         run: mvn clean install -DskipTests
 
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.SERVER_SSH_KEY  }}
+#      - name: Set up SSH
+#        uses: webfactory/ssh-agent@v0.5.3
+#        with:
+#          ssh-private-key: ${{ secrets.SERVER_SSH_KEY  }}
 
       - name: Deploy Docker container
         env:
