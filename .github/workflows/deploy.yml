@@ -20,7 +20,7 @@ jobs:
           java-version: '21'
 
       - name: Build without tests
-        run: ./mvnw clean install -DskipTests
+        run: mvn clean install -DskipTests
 
       - name: Deploy to server
         uses: appleboy/ssh-action@master
