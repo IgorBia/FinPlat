@@ -32,7 +32,6 @@ jobs:
           USER: ${{ secrets.SERVER_USER }}
           HOST: ${{ secrets.SERVER_IP }}
         run: |
-          ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
             # Przejście do katalogu z aplikacją
             cd /home/igorbia/FinPlat
           
@@ -41,7 +40,6 @@ jobs:
           
             mvn clean install
             mvn spring-boot:run
-          EOF
 
 
 
