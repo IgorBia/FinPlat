@@ -1,0 +1,30 @@
+name: Deploy to Local Server
+
+on:
+  push:
+    branches:
+      - main  # Wdrażanie uruchamiane po każdym pushu do brancha `main`
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Deploy Docker container
+        env:
+          USER: ${{ secrets.SERVER_USER }}
+          HOST: ${{ secrets.SERVER_HOST }}
+        run: |
+          ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
+            cd /finplat/
+            mvn clean install
+            mvn spring-boot:run
+          EOF
