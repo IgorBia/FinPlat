@@ -34,7 +34,6 @@ jobs:
           git pull origin main
           mvn clean install
           mvn spring-boot:run
-          echo "dupa"
           EOF
 
 
