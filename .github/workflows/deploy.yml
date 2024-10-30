@@ -32,8 +32,8 @@ jobs:
           USER: ${{ secrets.SERVER_USER }}
           HOST: ${{ secrets.SERVER_IP }}
         run: |
-            # Przejście do katalogu z aplikacją
-            cd /home/igorbia/FinPlat
+#             Przejście do katalogu z aplikacją
+#             cd /home/igorbia/FinPlat
           
             # Pobranie najnowszych zmian z repozytorium
             git pull origin main
