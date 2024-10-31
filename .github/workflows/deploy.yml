@@ -23,7 +23,6 @@ jobs:
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SERVER_SSH_KEY }}
-          port: 22
 
       - name: Deploy Docker container
         env:
@@ -31,12 +30,11 @@ jobs:
           HOST: ${{ secrets.SERVER_IP }}
         run: |
           ssh -o StrictHostKeyChecking=no $USER@$HOST << 'EOF'
-            cd /FinPlat
-            git pull origin main
-            mvn clean install -DskipTests
-            mvn spring-boot:run
+          cd /FinPlat
+          git pull origin main
+          mvn clean install -DskipTests
+          mvn spring-boot:run
           EOF
-
 
 
 
